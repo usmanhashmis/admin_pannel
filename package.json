@@ -46,6 +46,7 @@
     "@iconify/react": "^3.2.2",
     "@mui/lab": "^5.0.0-alpha.88",
     "@mui/material": "^5.8.6",
+    "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.16.4",
     "apexcharts": "^3.35.3",
     "axios": "^0.27.2",
@@ -60,8 +61,12 @@
     "react-dom": "^18.2.0",
     "react-helmet-async": "^1.3.0",
     "react-hook-form": "^7.33.1",
+    "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "redux": "^4.2.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.4.1",
     "simplebar": "^5.3.8",
     "simplebar-react": "^2.4.1",
     "web-vitals": "^2.1.4",
@@ -85,6 +90,5 @@
   },
   "overrides": {
     "@svgr/webpack": "^6.2.1"
-  },
-  "proxy": "http://localhost:420"
+  }
 }

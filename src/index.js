@@ -1,3 +1,5 @@
+import React from "react";
+
 // scroll bar
 import 'simplebar/src/simplebar.css';
 
@@ -6,20 +8,29 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 //
+import { Provider } from 'react-redux';
+import { configureStore } from './_mock/configureStore';
+
+//
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
 
 // ----------------------------------------------------------------------
-
+const store  = configureStore();
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
+     // ha wae key krna ay ???????
+    /// ye jo open 4 files ye check 
+    // type ka error a rha ha 
 root.render(
-  <HelmetProvider>
+  <Provider store={store}>
+     <HelmetProvider>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </HelmetProvider>
+  </Provider>
+ 
 );
 
 // If you want to enable client cache, register instead.

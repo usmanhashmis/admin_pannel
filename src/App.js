@@ -7,7 +7,7 @@ import ThemeProvider from './theme';
 // components
 
 import ScrollToTop from './components/ScrollToTop';
-import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
+
 
 const gettoken = localStorage.getItem("token");
 // ----------------------------------------------------------------------
@@ -31,7 +31,6 @@ const App=()=> {
      
       <ThemeProvider>
       <ScrollToTop />
-      <BaseOptionChartStyle />
       <Router />
     </ThemeProvider>
      
