@@ -25,8 +25,7 @@ export const GetPrices = () => (dispatch) => {
       },
     })
     .then((res) => {
-      dispatch({ type:"fetched",payload: res.data });
-      console.log(res.data);
+      dispatch({ type:"fetched",payload: res?.data });
     })
     .catch((err) => console.log(err, 'error in crypto api'));
 };
