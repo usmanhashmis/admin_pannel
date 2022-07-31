@@ -5,16 +5,10 @@ const datapara = {
   sort: 'rank',
   order: 'ascending',
   offset: 0,
-  limit: 12,
+  limit: 50,
   meta: true,
 };
 
-// const dataFetched = (data) => {
-//   return {
-//     type: 'fetched',
-//     payload: data,
-//   };
-// };
 
 export const GetPrices = () => (dispatch) => {
   axios
