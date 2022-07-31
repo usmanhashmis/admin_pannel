@@ -16,6 +16,7 @@ import {
   Container,
   Typography,
   TableContainer,
+  Alert
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -32,7 +33,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Coin Name', alignRight: false },
   { id: 'rate', label: 'Current Price', alignRight: false },
   { id: 'symbol', label: 'Symbol', alignRight: false },
-  { id: 'suapended', label: 'Transection Satuts', alignRight: false },
+  { id: 'suspended', label: 'Transection Satuts', alignRight: false },
   { id: '' },
 ];
 // ----------------------------------------------------------------------
@@ -64,7 +65,10 @@ export default function User() {
 
   const onsubmit=()=>{
     console.log("done");
-     navigate('/valuestoredone',{stores:checkedcoin});
+     navigate('/dashboard/valuestoredone',{state:{checkedcoin}});
+     setInterval(()=>{
+      <Alert severity="success">Coin Updated</Alert>
+     },2000)
   }
 
   return (
@@ -74,7 +78,7 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             Coins List
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" onClick={onsubmit} />}>
+          <Button variant="contained" onClick={onsubmit} startIcon={<Iconify icon="eva:plus-fill"  />}>
             Add Coins
           </Button>
         </Stack>
