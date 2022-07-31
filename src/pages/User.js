@@ -2,6 +2,7 @@
 import { useState,useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 // material
 import {
   Card,
@@ -69,7 +70,8 @@ export default function User() {
     .post("http://localhost:420/prices/add", checkedcoin)
     .then((res) => { 
       console.log("request done");
-      <Alert severity="success">Coins Submitted</Alert>
+      return(<Alert severity="success">Coins Submitted</Alert>)
+      
     })
     .catch((err) => {
       console.log(err);
