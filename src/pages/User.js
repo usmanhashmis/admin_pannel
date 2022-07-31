@@ -65,10 +65,15 @@ export default function User() {
 
   const onsubmit=()=>{
     console.log("done");
-     navigate('/dashboard/valuestoredone',{state:{checkedcoin}});
-     setInterval(()=>{
-      <Alert severity="success">Coin Updated</Alert>
-     },2000)
+    axios
+    .post("http://localhost:420/prices/add", checkedcoin)
+    .then((res) => { 
+      console.log("request done");
+      <Alert severity="success">Coins Submitted</Alert>
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   return (
