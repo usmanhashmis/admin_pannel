@@ -43,9 +43,9 @@ export default function User() {
   const data2 = useSelector((state) => state?.data);
   const navigate = useNavigate();
 
-
   const [allprices, setAllprices] = useState();
   const [checkedcoin,setCheckedcoin] = useState([]);
+  const [select,setSelect] = useState();
   // useEffect(() => {
   //   setInterval(()=>{
   //     dispatch(GetPrices());
@@ -60,17 +60,20 @@ export default function User() {
   },[]);
 
   const handleClick=(e)=>{
+    
      setCheckedcoin([...checkedcoin,e.target.name]);
      console.log(checkedcoin);
+     //setCheckedcoin(checkedcoin.filter((checkcoin)=>checkcoin !== e.target.name))
   }
 
   const onsubmit=()=>{
-    console.log("done");
+    
     axios
-    .post("http://localhost:420/prices/add", checkedcoin)
+    .post("http://localhost:420/prices/add",checkedcoin)
     .then((res) => { 
-      console.log("request done");
-      return(<Alert severity="success">Coins Submitted</Alert>)
+      console.log("request done"); 
+      alert("ok");
+      console.log(res.data);
       
     })
     .catch((err) => {
@@ -106,7 +109,7 @@ export default function User() {
                        role="checkbox"
                      >
                        <TableCell padding="checkbox">
-                         <Checkbox name={item.name} onChange={handleClick}/>
+                         <Checkbox name={item.name}  onChange={handleClick} />
                        </TableCell>
                        <TableCell component="th" scope="row" padding="none">
                          <Stack direction="row" alignItems="center" spacing={2}>

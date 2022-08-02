@@ -9,6 +9,7 @@ import NotFound from './pages/Page404';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import Alert from './_mock/Valuestoredb';
+import Addproduct from './pages/Addproduct';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +23,7 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'valuestoredone', element: <Alert /> },
+        { path: 'addproduct', element: <Addproduct/> },
       ],
     },
     {

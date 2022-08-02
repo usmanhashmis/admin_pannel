@@ -1,29 +1,62 @@
-import React, { useEffect } from 'react'
-import { useLocation,useNavigate } from 'react-router-dom';
-import axios from "axios";
+import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
+// material
+import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
+// utils
+import { fCurrency } from '../utils/formatNumber';
+// components
+import { ColorPreview } from '../components/color-utils';
 
+// ----------------------------------------------------------------------
 
-const Valuestoredb = () => {
-const location =useLocation();
-const navigate = useNavigate();
- const value=location.state;
+const ProductImgStyle = styled('img')({
+  top: 0,
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  position: 'absolute',
+});
 
- useEffect(()=>{
-    axios
-          .post("http://localhost:420/prices/add", value)
-          .then((res) => { 
-            console.log("request done");
-            navigate('/dashboard/user');
-          })
-          .catch((err) => {
-            console.log(err);
-          });
- })
+// ----------------------------------------------------------------------
 
- return(
-    <div>done</div>
- )
+ShopProductCard.propTypes = {
+  product: PropTypes.object,
+};
+
+export default function ShopProductCard() {
+ 
+  return (
+    <Card>
+      <Box sx={{ pt: '100%', position: 'relative' }}>
+        <ProductImgStyle alt="ok" src="https://i.pinimg.com/736x/62/2f/9d/622f9d0cfaf3bdd69fba4046103363e2.jpg" />
+      </Box>
+
+      <Stack spacing={2} sx={{ p: 3 }}>
+        <Link to="#" color="inherit" underline="hover" component={RouterLink}>
+          <Typography variant="subtitle2" noWrap>
+            "new product"
+          </Typography>
+        </Link>
+
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        
+          <Typography variant="subtitle1">
+            <Typography
+              component="span"
+              variant="body1"
+              sx={{
+                color: 'text.disabled',
+                textDecoration: 'line-through',
+              }}
+            >
+              1000
+            </Typography>
+            &nbsp;
+            222
+          </Typography>
+        </Stack>
+      </Stack>
+    </Card>
+  );
 }
-
-
-export default Valuestoredb;

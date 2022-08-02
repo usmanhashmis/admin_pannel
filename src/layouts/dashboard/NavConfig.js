@@ -12,9 +12,9 @@ const navConfig = [
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
-    title: 'user',
+    title: 'Coins',
     path: '/dashboard/user',
-    icon: getIcon('eva:people-fill'),
+    icon: getIcon('la:coins'),
   },
   {
     title: 'product',
@@ -22,15 +22,11 @@ const navConfig = [
     icon: getIcon('eva:shopping-bag-fill'),
   },
   {
-    title: 'login',
+    title: 'logout',
     path: '/login',
     icon: getIcon('eva:lock-fill'),
   },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon('eva:alert-triangle-fill'),
-  },
+
 ];
 
 export default navConfig;
