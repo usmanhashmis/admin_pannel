@@ -81,7 +81,8 @@ const ShopProductCard=()=> {
               
                 </Typography>
                 
-                <Link align="left" variant="text" to={"/dashboard/addproduct/" + index._id}>Edit</Link>
+                
+                <Link  color="inherit" underline="hover" component={RouterLink} to={"/dashboard/addproduct/" + index._id}>Edit</Link>
                 <Button  onClick={()=>{deleteproduct(index._id)}}>Delete</Button>
               </Stack>
             </Stack>

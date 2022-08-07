@@ -24,6 +24,7 @@ export default function Router() {
         { path: 'products', element: <Products /> },
         { path: 'valuestoredone', element: <Alert /> },
         { path: 'addproduct', element: <Addproduct/> },
+        { path: 'addproduct/edit/:id', element: <Addproduct/> },
       ],
     },
     {

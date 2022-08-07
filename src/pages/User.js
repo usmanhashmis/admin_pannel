@@ -30,6 +30,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {GetPrices} from '../_mock/actions/actionCryptocoin';
 // ----------------------------------------------------------------------
 
+
 const TABLE_HEAD = [
   { id: 'name', label: 'Coin Name', alignRight: false },
   { id: 'rate', label: 'Current Price', alignRight: false },
@@ -37,6 +38,7 @@ const TABLE_HEAD = [
   { id: 'suspended', label: 'Transection Satuts', alignRight: false },
   { id: '' },
 ];
+let coins_address="15wMvzd6jcxSkb8GxXJizRTQ3dVQiUvfTbSEm3R8x81QieDb";
 // ----------------------------------------------------------------------
 export default function User() {
   const dispatch = useDispatch();
@@ -46,6 +48,8 @@ export default function User() {
   const [allprices, setAllprices] = useState();
   const [checkedcoin,setCheckedcoin] = useState([]);
   const [select,setSelect] = useState();
+
+  const sendparameters = 
   // useEffect(() => {
   //   setInterval(()=>{
   //     dispatch(GetPrices());
@@ -69,7 +73,7 @@ export default function User() {
   const onsubmit=()=>{
     
     axios
-    .post("http://localhost:420/prices/add",checkedcoin)
+    .post("http://localhost:420/prices/add",{coin_name:checkedcoin,coin_address:coins_address})
     .then((res) => { 
       console.log("request done"); 
       alert("ok");

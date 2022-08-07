@@ -143,7 +143,7 @@ const Adddata = (props) => {
                 .catch((err) => {
                   console.log(err);
                 });
-              navigate("/dashboard/product");
+              navigate("/dashboard/products");
             }
           }}
         >
