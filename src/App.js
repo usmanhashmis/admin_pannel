@@ -12,13 +12,12 @@ import ScrollToTop from './components/ScrollToTop';
 const gettoken = localStorage.getItem("token");
 // ----------------------------------------------------------------------
  
-
 const App=()=> {
   const [renderapp,setRenderapp] = useState(gettoken);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(!renderapp){
+    if(renderapp){
       navigate("/login")
 
     }
@@ -26,15 +25,11 @@ const App=()=> {
   }, []);
   return (
     <>
-     {/* {!renderapp && navigate('/login') }
-     {renderapp &&  */}
      
       <ThemeProvider>
       <ScrollToTop />
       <Router />
-    </ThemeProvider>
-     
-    
+    </ThemeProvider>  
     </>
    
   );

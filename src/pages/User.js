@@ -38,30 +38,39 @@ const TABLE_HEAD = [
   { id: 'suspended', label: 'Transection Satuts', alignRight: false },
   { id: '' },
 ];
-let coins_address="15wMvzd6jcxSkb8GxXJizRTQ3dVQiUvfTbSEm3R8x81QieDb";
+
 // ----------------------------------------------------------------------
 export default function User() {
   const dispatch = useDispatch();
-  const data2 = useSelector((state) => state?.data);
+  const {loading,error, data} = useSelector((state) => state.coin);
   const navigate = useNavigate();
 
   const [allprices, setAllprices] = useState();
   const [checkedcoin,setCheckedcoin] = useState([]);
   const [select,setSelect] = useState();
-
+  
   const sendparameters = 
+  useEffect(() => {
+
+   const timer_id= setInterval(()=>{
+      dispatch(GetPrices());
+      if(data)
+      {
+        setAllprices(data);
+      }
+      
+    },3000)
+   
+    return () => { 
+      clearInterval(timer_id)
+    }
+
+  },[data]);
+
   // useEffect(() => {
-  //   setInterval(()=>{
   //     dispatch(GetPrices());
   //     setAllprices(data2);
-  //   },3000)
-  
-  // },[allprices]);
-
-  useEffect(() => {
-      dispatch(GetPrices());
-      setAllprices(data2);
-  },[]);
+  // },[]);
 
   const handleClick=(e)=>{
     
@@ -70,10 +79,9 @@ export default function User() {
      //setCheckedcoin(checkedcoin.filter((checkcoin)=>checkcoin !== e.target.name))
   }
 
-  const onsubmit=()=>{
-    
+  const onsubmit=()=>{ 
     axios
-    .post("http://localhost:420/prices/add",{coin_name:checkedcoin,coin_address:coins_address})
+    .post("/prices/add",{coin_name:checkedcoin})
     .then((res) => { 
       console.log("request done"); 
       alert("ok");
@@ -123,7 +131,7 @@ export default function User() {
                            </Typography>
                          </Stack>
                        </TableCell>
-                       <TableCell align="left">{item.rate.toFixed(6)}</TableCell>
+                       <TableCell align="left">{item.rate.toFixed(2)}</TableCell>
                        <TableCell align="left">{item.symbol}</TableCell>
                        <TableCell align="left">{item.rank}</TableCell>
              

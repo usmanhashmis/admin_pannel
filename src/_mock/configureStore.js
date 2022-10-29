@@ -1,13 +1,13 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware ,combineReducers } from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
-import Reducer from "./reducer/reducerCryptocoin";
+import Coins from './reducer/reducerCryptocoin'
 
 export function configureStore(preloadedState) {
-  const middlewares = [logger, thunk]
+  const middlewares = [thunk]
   const middlewareEnhancer = applyMiddleware(...middlewares)
-
-  const store = createStore(Reducer,preloadedState, middlewareEnhancer)
+  
+  const store = createStore(combineReducers({coin : Coins}),preloadedState, middlewareEnhancer)
 
   return store
 }

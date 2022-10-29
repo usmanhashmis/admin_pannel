@@ -70,6 +70,7 @@
     "simplebar": "^5.3.8",
     "simplebar-react": "^2.4.1",
     "web-vitals": "^2.1.4",
+    "web3": "^1.8.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
@@ -90,5 +91,6 @@
   },
   "overrides": {
     "@svgr/webpack": "^6.2.1"
-  }
+  },
+  "proxy":"https://drab-cyan-fossa-kilt.cyclic.app"
 }

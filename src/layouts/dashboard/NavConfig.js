@@ -22,6 +22,16 @@ const navConfig = [
     icon: getIcon('eva:shopping-bag-fill'),
   },
   {
+    title: 'product Orders',
+    path: '/dashboard/productorders',
+    icon: getIcon('bxs:purchase-tag'),
+  },
+  {
+    title: 'contract Amount',
+    path: '/dashboard/contractamount',
+    icon: getIcon('clarity:contract-solid'),
+  },
+  {
     title: 'logout',
     path: '/login',
     icon: getIcon('eva:lock-fill'),

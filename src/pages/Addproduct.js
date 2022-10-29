@@ -12,17 +12,20 @@ const Adddata = (props) => {
   const { id } = useParams();
   const navigate = useNavigate();
   console.log(id);
+  
   const edit = id ? true : false;
 
   const [category, setCategory] = useState({
     product_name: "",
+    product_id:"",
     description: "",
     price:"",
     product_img:"",
     pricesale:"",
+    
   });
   
-  const { product_name, description,price,product_img,pricesale } = category;
+  const { product_name,product_id, description,price,product_img,pricesale } = category;
 
   const onupload =async e=>{
   const files = e.target.files
@@ -47,7 +50,7 @@ const Adddata = (props) => {
   useEffect(() => {
     if (edit) {
       axios
-        .get("http://localhost:420/categories/getproduct" + id)
+        .get("/categories/" + id)
 
         .then((res) => {
           setCategory(res.data);
@@ -82,6 +85,17 @@ const Adddata = (props) => {
               setCategory({ ...category, product_name: e.target.value });
             }}
             placeholder="Product Name"
+          />
+              <TextField
+            id="outlined-basic"
+            label="ID"
+            variant="outlined"
+            value={product_id ? product_id : ""}
+            row={8}
+            onChange={(e) => {
+              setCategory({ ...category, product_id: e.target.value });
+            }}
+            placeholder="Product ID"
           />
           <TextField
             id="outlined-basic"
@@ -129,13 +143,15 @@ const Adddata = (props) => {
           variant="contained"
           onClick={() => {
             if (!edit) {
-              axios.post("http://localhost:420/categories/addproduct", category).then((res) => {
+              axios.post("/categories/addproduct", category).then((res) => {
                 console.log(res.data);
                 navigate("/dashboard/products");
+              }).catch((err)=>{
+                alert(err.response.data.msg);
               });
             } else {
               axios
-                .put("http://localhost:420/categories/" + id, category)
+                .put("/categories/" + id, category)
                 .then((res) => {
                   console.log("Product has been edited " + res.data.Categories);
                   navigate("/dashboard/products");

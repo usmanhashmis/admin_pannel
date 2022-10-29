@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
@@ -27,7 +27,7 @@ const LoginForm=()=> {
      };
   const onsubmit = () => {
     axios
-          .post("http://localhost:420/admin/login", adminlogin)
+          .post("/admin/login", adminlogin)
           .then((res) => {
             localStorage.setItem("token", res.data.token);
             navigate('/dashboard/app', { replace: true });
@@ -36,6 +36,10 @@ const LoginForm=()=> {
             console.log(err);
           });
   };
+
+  useEffect(()=>{
+    localStorage.removeItem('token');
+  },[])
 
   return (
     <Grid >

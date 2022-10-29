@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 
 // scroll bar
@@ -15,7 +16,11 @@ import { configureStore } from './_mock/configureStore';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
+import axios from "axios";
 
+
+////base URL
+axios.defaults.baseURL = 'https://drab-cyan-fossa-kilt.cyclic.app';
 // ----------------------------------------------------------------------
 const store  = configureStore();
 const root = ReactDOM.createRoot(document.getElementById('root'));

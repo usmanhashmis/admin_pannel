@@ -5,12 +5,13 @@ const datapara = {
   sort: 'rank',
   order: 'ascending',
   offset: 0,
-  limit: 50,
+  limit: 30,
   meta: true,
 };
 
 
 export const GetPrices = () => (dispatch) => {
+  dispatch({type : "initiated"})
   axios
     .post('https://api.livecoinwatch.com/coins/list', datapara, {
       headers: {
@@ -19,7 +20,12 @@ export const GetPrices = () => (dispatch) => {
       },
     })
     .then((res) => {
-      dispatch({ type:"fetched",payload: res?.data });
+      dispatch({ type:"fetched",payload: res.data });
     })
-    .catch((err) => console.log(err, 'error in crypto api'));
+    .catch((err) =>
+    { 
+      console.log(err, 'error in crypto api') 
+      dispatch({type :"failed",payload :err.message})
+    })
+
 };

@@ -4,7 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Box, Card, Link, Typography, Stack, Button,Grid } from '@mui/material';
+import { Box, Card, Link, Typography, Stack, Button,Grid , CircularProgress} from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
@@ -32,7 +32,7 @@ const ShopProductCard=()=> {
   const [loading, setLoading] = useState(true); /////API loading data
 
   useEffect(() => {
-    axios.get('http://localhost:420/categories/getproduct').then((res) => {
+    axios.get('categories/getproduct').then((res) => {
       setLoading(false);
       setProducts(res.data);
     });
@@ -40,7 +40,7 @@ const ShopProductCard=()=> {
 
   const deleteproduct = (id) => {
     axios
-      .delete(`http://localhost:420/categories/${id}`)
+      .delete(`/categories/${id}`)
       .then((res) => {
         alert("Data Deleted");
         console.log(res);
@@ -49,10 +49,14 @@ const ShopProductCard=()=> {
   };
 
   return (
+    <>
+    {loading ? <Box sx={{ display: 'flex' }}><CircularProgress /> </Box> :
     <Grid container spacing={3}>
       
+
         {products.map((index, key) => (
           <Grid key={key} item xs={12} sm={6} md={3}>
+            
             <Card>
             <Box sx={{ pt: '100%', position: 'relative' }}>
               <ProductImgStyle alt="img" src={index.product_img} />
@@ -82,17 +86,18 @@ const ShopProductCard=()=> {
                 </Typography>
                 
                 
-                <Link  color="inherit" underline="hover" component={RouterLink} to={"/dashboard/addproduct/" + index._id}>Edit</Link>
+                <Link  color="inherit" underline="hover" component={RouterLink} to={"/dashboard/addproduct/edit/" + index._id}>Edit</Link>
                 <Button  onClick={()=>{deleteproduct(index._id)}}>Delete</Button>
               </Stack>
             </Stack>
             </Card>
             
-        
+                  
           </Grid>
         ))}
       
-    </Grid>
+    </Grid>}
+    </>
   );
 }
 
