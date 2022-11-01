@@ -1,11 +1,14 @@
+import  {useEffect} from 'react';
 import PropTypes from 'prop-types';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import {  AppBar, Toolbar, IconButton } from '@mui/material';
 // components
+import { useNavigate } from 'react-router-dom';
 import Iconify from '../../components/Iconify';
 //
 import Searchbar from './Searchbar';
+
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +40,16 @@ DashboardNavbar.propTypes = {
   onOpenSidebar: PropTypes.func,
 };
 
+
 export default function DashboardNavbar({ onOpenSidebar }) {
+  const navigate = useNavigate();
+  useEffect(()=>{
+    const t=localStorage.getItem('token');;
+    if(!t){
+      navigate('/login')
+    }
+    
+  },[])
   return (
     <RootStyle>
       <ToolbarStyle>

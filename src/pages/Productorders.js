@@ -37,7 +37,7 @@ const TABLE_HEAD = [
   { id: '' },
 ];
 // ----------------------------------------------------------------------
-export default function User() {
+export default function Productorder() {
 
 
 
@@ -78,7 +78,7 @@ export default function User() {
 
 
   return (
-    <Page title="User">
+    <Page title="Product Order">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

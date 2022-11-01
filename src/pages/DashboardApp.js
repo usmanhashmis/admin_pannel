@@ -16,7 +16,7 @@ export default function DashboardApp() {
   const [msg, setMsg] = useState();
   useEffect(() => {
     axios
-      .get('http://localhost:420/msg/getallmsg')
+      .get('/msg/getallmsg')
       .then((res) => {
         setMsg(res.data);
         //setLoading(false);
@@ -51,20 +51,14 @@ export default function DashboardApp() {
           </Grid>
 
   
-          {msg?.map((message, key) => {
+          {msg?.map((message, key) => (
             <Grid item xs={12} md={6} lg={4}>
               <AppTrafficBySite
                  title="Messages"
                  list={[
                    {
-                     name: "dd",
-                     msg: "Kindly give me some detail",
-                     reply: "Reply",
-                     
-                   },
-                   {
-                     name: 'UserName',
-                     msg: "Kindly give me some detail",
+                     name: message.username,
+                     msg: message.msg,
                      reply: "Reply",
                      
                    },
@@ -74,8 +68,8 @@ export default function DashboardApp() {
                
              
                
-            </Grid>;
-            })} 
+            </Grid>
+            ))} 
           <Grid item xs={12} md={6} lg={8}>
             <AppTasks title="Tasks" list={[{ id: '1', label: 'Create FireStone Logo' }]} />
           </Grid>

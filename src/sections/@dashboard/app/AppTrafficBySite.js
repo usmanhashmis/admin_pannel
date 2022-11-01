@@ -1,7 +1,9 @@
 // @mui
 import PropTypes from 'prop-types';
-import { Box, Card, Paper, Typography, CardHeader, CardContent } from '@mui/material';
+import { Box, Card, Paper, Typography, CardHeader, CardContent, TextField, Button } from '@mui/material';
+import { useState } from 'react';
 
+import axios from 'axios';
 
 AppTrafficBySite.propTypes = {
   title: PropTypes.string,
@@ -10,6 +12,18 @@ AppTrafficBySite.propTypes = {
 };
 
 export default function AppTrafficBySite({ title, subheader, list, ...other }) {
+  const {reply, setReply} = useState([]);
+  const replymesg = () => {
+    axios
+    .get('http://localhost:420/msg/query',{reply})
+    .then((res) => {
+      console.log("done",res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -28,9 +42,17 @@ export default function AppTrafficBySite({ title, subheader, list, ...other }) {
                 {site.name}
               </Typography>
               <Typography variant="h8">{site.msg}</Typography>
-              <Typography variant="h4">{site.reply}</Typography>
-
               
+              <TextField
+                id="outlined-basic"
+                label="Reply"
+                value={reply}
+                onChange={(e) => {
+                  setReply(e.target.value);
+                }}
+                placeholder="Write reply "
+              />
+              <Button variant="h4" onClick={replymesg}>{site.reply}</Button>
             </Paper>
           ))}
         </Box>

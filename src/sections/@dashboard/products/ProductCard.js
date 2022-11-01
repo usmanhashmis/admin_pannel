@@ -69,19 +69,8 @@ const ShopProductCard=()=> {
               </Link>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography variant="subtitle1">
-                  <Typography
-                    component="span"
-                    variant="body1"
-                    sx={{
-                      color: 'text.disabled',
-                      textDecoration: 'line-through',
-                    }}
-                  >
-                    {index.pricesale && fCurrency(index.pricesale)}
-                  </Typography>
                   &nbsp;
-                  {index.pricesale ? fCurrency(index.price-index.pricesale)
-                  :fCurrency(index.price)}
+                  {fCurrency(index.price)}
               
                 </Typography>
                 

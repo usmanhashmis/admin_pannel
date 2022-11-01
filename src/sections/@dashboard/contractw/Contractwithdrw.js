@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 
 import { useNavigate } from 'react-router-dom';
 import Web3 from 'https://cdn.skypack.dev/web3@1.8.0';
-import { ContractAbi } from "./abi";
+import { ContractAbi , ContractAbiMatci } from "./abi";
 import {contractAddress , contractAddressMatic} from "./contractAddress";
 // ----------------------------------------------------------------------
 
@@ -27,33 +27,34 @@ const SmartContractData = () => {
   var navigate = useNavigate();
   const [products, setProducts] = useState([]); ////////data receive
   const [balance, setBalance] = useState(); /////check balance
+  const [balancematic, setBalancematic] = useState(); /////check balance matic
   const [uaccounts, setUaccounts] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    callevents();
+    callevents(ContractAbi,contractAddress,setBalance);
+    callevents(ContractAbiMatci,contractAddressMatic,setBalancematic);
+    //maticcontract();
   }, []);
 
-  async function callevents() {
-   // var ContractAddress = '0xAa6E95dce2890e4b05753fF4D417E5d6bf9D23ed';
-
-    ///////////////////////
+  async function callevents(abi,address,setFun) {
     if (typeof window.ethereum !== 'undefined') {
       await connectwallet();
       // const provider = new Web3.providers.Web3Provider(window.ethereum);
       window.web3 = new Web3(window.ethereum);
       console.log('abi', ContractAbi);
-      window.contract = new window.web3.eth.Contract(ContractAbi, contractAddress);
+      window.contract = new window.web3.eth.Contract(abi,address);
       console.log(window.contract.methods);
       console.log('dd', await window.contract.methods.balance().call());
       await window.contract.methods
         .balance()
         .call()
         .then(function (bal) {
-          setBalance(bal);
+          setFun(bal);
         });
     }
   }
+
 
   const WithdrewBlance = () => {};
 
@@ -92,9 +93,8 @@ const SmartContractData = () => {
       </Grid>
       <Box sx={{ '& button': { m: 4 }, ml: 5 }}>
         <div>
-          <Typography variant="h7">Matic Smart Contract Balance : {balance}</Typography>
+          <Typography variant="h7">Matic Smart Contract Balance : {balancematic}</Typography>
         </div>
-
         <div>
           <Typography variant="h7">You can Withdrew this Balance :</Typography>
         </div>

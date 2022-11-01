@@ -21,11 +21,10 @@ const Adddata = (props) => {
     description: "",
     price:"",
     product_img:"",
-    pricesale:"",
     
   });
   
-  const { product_name,product_id, description,price,product_img,pricesale } = category;
+  const { product_name,product_id, description,price,product_img} = category;
 
   const onupload =async e=>{
   const files = e.target.files
@@ -62,7 +61,7 @@ const Adddata = (props) => {
   }, []);
 
   return (
-    <div>
+    <div title="Add Product" >
       <h1 style={{ color: "black", marginTop: "1rem"  }}>
         Add Product 
       </h1>
@@ -114,15 +113,6 @@ const Adddata = (props) => {
               setCategory({ ...category, price: e.target.value });
             }}
             placeholder="Price in USDT"
-          />
-          <TextField
-            id="outlined-basic"
-            label="Price Sale"
-            value={pricesale ? pricesale: ""}
-            onChange={(e) => {
-              setCategory({ ...category, pricesale: e.target.value });
-            }}
-            placeholder="Discount"
           />
             <label htmlFor="contained-button-file">
             <Input

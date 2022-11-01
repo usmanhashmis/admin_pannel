@@ -40,7 +40,7 @@ const TABLE_HEAD = [
 ];
 
 // ----------------------------------------------------------------------
-export default function User() {
+export default function Selectcoin() {
   const dispatch = useDispatch();
   const {loading,error, data} = useSelector((state) => state.coin);
   const navigate = useNavigate();
@@ -94,7 +94,7 @@ export default function User() {
   }
 
   return (
-    <Page title="User">
+    <Page title="Coins">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

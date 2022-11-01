@@ -4,6 +4,10 @@ import Iconify from '../../components/Iconify';
 // ----------------------------------------------------------------------
 
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
+const myfun=()=>{
+  console.log("working")
+  localStorage.removeItem("token")
+}
 
 const navConfig = [
   {
@@ -13,7 +17,7 @@ const navConfig = [
   },
   {
     title: 'Coins',
-    path: '/dashboard/user',
+    path: '/dashboard/selectcoin',
     icon: getIcon('la:coins'),
   },
   {
@@ -27,14 +31,21 @@ const navConfig = [
     icon: getIcon('bxs:purchase-tag'),
   },
   {
+    title: 'Discounts',
+    path: '/dashboard/discount',
+    icon: getIcon('bxs:purchase-tag'),
+  },
+  {
     title: 'contract Amount',
     path: '/dashboard/contractamount',
     icon: getIcon('clarity:contract-solid'),
+    
   },
   {
     title: 'logout',
     path: '/login',
     icon: getIcon('eva:lock-fill'),
+    fun:myfun()
   },
 
 ];

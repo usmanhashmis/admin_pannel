@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ const LoginForm=()=> {
 
   const onhandlechange = e => {
     setAdminlogin({ ...adminlogin, [e.target.name]: e.target.value });
-    console.log("onchange");
+  
      };
   const onsubmit = () => {
     axios
@@ -37,9 +37,7 @@ const LoginForm=()=> {
           });
   };
 
-  useEffect(()=>{
-    localStorage.removeItem('token');
-  },[])
+
 
   return (
     <Grid >
