@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 
 import { useNavigate } from 'react-router-dom';
 import Web3 from 'https://cdn.skypack.dev/web3@1.8.0';
-import { ContractAbi , ContractAbiMatci } from "./abi";
+import { ContractAbi , ContractAbiMatic } from "./abi";
 import {contractAddress , contractAddressMatic} from "./contractAddress";
 // ----------------------------------------------------------------------
 
@@ -28,13 +28,16 @@ const SmartContractData = () => {
   const [products, setProducts] = useState([]); ////////data receive
   const [balance, setBalance] = useState(); /////check balance
   const [balancematic, setBalancematic] = useState(); /////check balance matic
+  const [withdrawbal,setWithdrawbal] = useState();    ////matic balance check 
+  const [withdrawetherbal,setWithdrawetherbal] = useState();    ////ether balance check 
   const [uaccounts, setUaccounts] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     callevents(ContractAbi,contractAddress,setBalance);
-    callevents(ContractAbiMatci,contractAddressMatic,setBalancematic);
-    //maticcontract();
+    callevents(ContractAbiMatic,contractAddressMatic,setBalancematic);
+    checkwithdrawbalacne(ContractAbi,contractAddress,setWithdrawetherbal);
+    checkwithdrawbalacne(ContractAbiMatic,contractAddressMatic,setWithdrawbal);
   }, []);
 
   async function callevents(abi,address,setFun) {
@@ -42,21 +45,31 @@ const SmartContractData = () => {
       await connectwallet();
       // const provider = new Web3.providers.Web3Provider(window.ethereum);
       window.web3 = new Web3(window.ethereum);
-      console.log('abi', ContractAbi);
       window.contract = new window.web3.eth.Contract(abi,address);
       console.log(window.contract.methods);
       console.log('dd', await window.contract.methods.balance().call());
-      await window.contract.methods
-        .balance()
-        .call()
-        .then(function (bal) {
-          setFun(bal);
+      await window.contract.methods.balance().call().then(function (bal) {
+          const convertedb = window.web3.utils.fromWei(bal);
+          setFun(convertedb);
         });
     }
   }
+ 
+  const WithdrewBlance = async() => {
+    window.contract = new window.web3.eth.Contract(ContractAbiMatic,contractAddressMatic);
+    await window.contract.methods.withdraw().call().then(function (bal) {
+        alert("withdrew done");
+        setBalancematic(0);
+      });
+  };
 
-
-  const WithdrewBlance = () => {};
+  const checkwithdrawbalacne =async(abi , address, setCheckbal)=>{
+    window.contract = new window.web3.eth.Contract(abi,address);
+    await window.contract.methods.checkwithdrawbalance().call().then(function (bal) {
+      const convertedb = window.web3.utils.fromWei(bal);
+        setCheckbal(convertedb);
+      });  
+  }
 
   const connectwallet = async () => {
     if (window.ethereum) {
@@ -75,19 +88,21 @@ const SmartContractData = () => {
     }
   };
 
+
   return (
     <Grid container spacing={3}>
       <Grid>
         <Box sx={{ '& button': { m: 4 }, ml: 5 }}>
           <div>
             <Typography variant="h7">Ether Smart Contract Balance : {balance}</Typography>
+         
           </div>
 
           <div>
-            <Typography variant="h7">You can Withdrew this Balance :</Typography>
+            <Typography variant="h7">You can Withdraw this Balance :{withdrawetherbal}</Typography>
           </div>
           <div>
-            <Button variant="contained">Withdrew</Button>
+            <Button variant="contained" >Withdraw</Button>
           </div>
         </Box>
       </Grid>
@@ -96,10 +111,10 @@ const SmartContractData = () => {
           <Typography variant="h7">Matic Smart Contract Balance : {balancematic}</Typography>
         </div>
         <div>
-          <Typography variant="h7">You can Withdrew this Balance :</Typography>
+          <Typography variant="h7">You can Withdraw this Balance :{withdrawbal}</Typography>
         </div>
         <div>
-          <Button variant="contained">Withdrew</Button>
+          <Button variant="contained" onClick={WithdrewBlance}>Withdraw</Button>
         </div>
       </Box>
     </Grid>

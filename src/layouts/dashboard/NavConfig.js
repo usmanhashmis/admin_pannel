@@ -33,7 +33,7 @@ const navConfig = [
   {
     title: 'Discounts',
     path: '/dashboard/discount',
-    icon: getIcon('bxs:purchase-tag'),
+    icon: getIcon('tabler:shopping-cart-discount'),
   },
   {
     title: 'contract Amount',

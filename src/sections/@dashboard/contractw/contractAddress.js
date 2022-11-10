@@ -1,6 +1,6 @@
 module.exports ={
-    contractAddress: '0xAa6E95dce2890e4b05753fF4D417E5d6bf9D23ed',
-    contractAddressMatic: '0xE5644ADFe2ccbA084dD6687735f748580F044175'
+    contractAddress: '0xB3F299f82a9E60D0ceB94557786DC23B139E9216',
+    contractAddressMatic: '0xabD247d01cCd3a4c1f74f1e9894A4EaE5c776778'
 }
 
 // module.exports={

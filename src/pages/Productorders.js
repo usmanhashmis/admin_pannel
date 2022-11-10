@@ -31,6 +31,7 @@ import { UserListHead } from '../sections/@dashboard/user';
 const TABLE_HEAD = [
   { id: 'confirm', label: 'Order Completed', alignRight: false },
   { id: 'id', label: 'Product ID', alignRight: false },
+  { id: 'mail', label: 'User Email', alignRight: false },
   { id: 'quantity', label: 'Quantity', alignRight: false },
   { id: 'bill', label: 'Total Bill', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
@@ -95,23 +96,26 @@ export default function Productorder() {
                 />             
                      <TableBody>
               {order?.map((item,key)=>(
-
-                
                      <TableRow
                        hover
                        key={key}
-                     >
-                      
+                     >                 
                        <TableCell>
                        <Button variant="contained" onClick={()=>completed(item._id)}>If Delivered</Button>
                        </TableCell>
+
                        <TableCell component="th" scope="row" padding="none">
-                         <Stack direction="row" alignItems="center" spacing={2}>
-                           {/* <Avatar alt="name" src={} /> */}
-                           <Typography variant="subtitle2" noWrap>
-                             {item.productid}
-                           </Typography>
-                         </Stack>
+                        {item.productdetail.map((itemd,key)=>(
+                            <Stack direction="row" alignItems="center" spacing={2} key={key}>
+                            {/* <Avatar alt="name" src={} /> */}
+                            <Typography variant="subtitle2" noWrap>
+                              {itemd.productid}
+                            </Typography>
+                            
+                          </Stack>
+                          
+                        ))}
+                       
                        </TableCell>
                        <TableCell align="left">{item.quantity} </TableCell>
                        <TableCell align="left">{item.totalBill}{item.coin}</TableCell>
