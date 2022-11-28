@@ -24,9 +24,7 @@ axios.defaults.baseURL = 'https://drab-cyan-fossa-kilt.cyclic.app';
 // ----------------------------------------------------------------------
 const store  = configureStore();
 const root = ReactDOM.createRoot(document.getElementById('root'));
-     // ha wae key krna ay ???????
-    /// ye jo open 4 files ye check 
-    // type ka error a rha ha 
+  
 root.render(
   <Provider store={store}>
      <HelmetProvider>
