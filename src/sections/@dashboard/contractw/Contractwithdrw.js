@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Box, Card, Link, Typography, Stack, Button, Grid } from '@mui/material';
+import { Box, Card, Link, Typography, Stack, Button, Grid,TextField } from '@mui/material';
+import Iconify from '../../../components/Iconify';
 import { styled } from '@mui/material/styles';
 // components
 
@@ -12,14 +13,8 @@ import Web3 from 'https://cdn.skypack.dev/web3@1.8.0';
 import { ContractAbi , ContractAbiMatic } from "./abi";
 import {contractAddress , contractAddressMatic} from "./contractAddress";
 // ----------------------------------------------------------------------
-
-const ProductImgStyle = styled('img')({
-  top: 0,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  position: 'absolute',
-});
+const etherweb3 = new Web3("https://eth-goerli.g.alchemy.com/v2/YPhlCYJ_fLdms1LpSRNs1n6rfcIqGHT9");
+const maticweb3 = new Web3("https://polygon-mumbai.g.alchemy.com/v2/tNMnFd0YDejjHxonOBaX4gmnDORXp7ka");
 
 // ----------------------------------------------------------------------
 
@@ -34,52 +29,83 @@ const SmartContractData = () => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    callevents(ContractAbi,contractAddress,setBalance);
-    callevents(ContractAbiMatic,contractAddressMatic,setBalancematic);
-    checkwithdrawbalacne(ContractAbi,contractAddress,setWithdrawetherbal);
-    checkwithdrawbalacne(ContractAbiMatic,contractAddressMatic,setWithdrawbal);
+   async function callingmethods(){
+    if (typeof window.ethereum !== 'undefined') {  
+    await connectwallet();
+  }
+
+  calleventsether(ContractAbi,contractAddress,setBalance);   
+  checketherwithdrawbalacne(ContractAbi,contractAddress,setWithdrawetherbal);
+    ///matic
+   calleventsmatic(ContractAbiMatic,contractAddressMatic,setBalancematic);
+   checkmaticwithdrawbalacne(ContractAbiMatic,contractAddressMatic,setWithdrawbal);
+    }
+    callingmethods();
+    
   }, []);
 
-  async function callevents(abi,address,setFun) {
-    if (typeof window.ethereum !== 'undefined') {
-      await connectwallet();
-      // const provider = new Web3.providers.Web3Provider(window.ethereum);
-      window.web3 = new Web3(window.ethereum);
-      window.contract = new window.web3.eth.Contract(abi,address);
-      console.log(window.contract.methods);
-      console.log('dd', await window.contract.methods.balance().call());
-      await window.contract.methods.balance().call().then(function (bal) {
-          const convertedb = window.web3.utils.fromWei(bal);
+  async function calleventsether(abi,address,setFun) {
+      const contract = new etherweb3.eth.Contract(abi,address);
+      await contract.methods.balance().call().then(function (bal) {
+         console.log("dddddddddddddddd",bal);
+          const convertedb = etherweb3.utils.fromWei(bal);
           setFun(convertedb);
-        });
-    }
+        })
   }
+
+  async function calleventsmatic(abi,address,setFun) {
+    const contract = new maticweb3.eth.Contract(abi,address);
+    await contract.methods.balance().call().then(function (bal) {
+       console.log("maticccc",bal);
+        const convertedb = maticweb3.utils.fromWei(bal);
+        setFun(convertedb);
+      })
+}
+
+////
+const WithdrewBlanceether = async() => {
+  const contract = new etherweb3.eth.Contract(ContractAbi,contractAddress);
+  await contract.methods.withdraw().send({from: uaccounts}).then(function (bal) {
+      alert("withdrew done ether");
+      setBalancematic(0);
+    });
+};
  
   const WithdrewBlance = async() => {
-    window.contract = new window.web3.eth.Contract(ContractAbiMatic,contractAddressMatic);
-    await window.contract.methods.withdraw().call().then(function (bal) {
-        alert("withdrew done");
-        setBalancematic(0);
-      });
+    // console.log("done");
+    // const paramter = maticweb3.utils.toWei(withdrawbal, 'ether');
+    // const contract = new maticweb3.eth.Contract(ContractAbiMatic,contractAddressMatic);
+    // await contract.methods.withdraw(paramter).send({from: uaccounts}).then(function (bal) {
+    //     alert("withdrew done");
+    //     setBalancematic(0);
+    //   });
   };
 
-  const checkwithdrawbalacne =async(abi , address, setCheckbal)=>{
-    window.contract = new window.web3.eth.Contract(abi,address);
-    await window.contract.methods.checkwithdrawbalance().call().then(function (bal) {
-      const convertedb = window.web3.utils.fromWei(bal);
+  const checketherwithdrawbalacne =async(abi , address, setCheckbal)=>{
+    const contract = new etherweb3.eth.Contract(abi,address);
+    await contract.methods.checkwithdrawbalance().call().then(function (bal) {
+      const convertedb = etherweb3.utils.fromWei(bal);
+        console.log(convertedb);
+        setCheckbal(convertedb);
+      });  
+  }
+
+  const checkmaticwithdrawbalacne =async(abi , address, setCheckbal)=>{
+    const contract = new maticweb3.eth.Contract(abi,address);
+    await contract.methods.checkwithdrawbalance().call().then(function (bal) {
+      const convertedb = maticweb3.utils.fromWei(bal);
+        console.log(convertedb);
         setCheckbal(convertedb);
       });  
   }
 
   const connectwallet = async () => {
     if (window.ethereum) {
-      console.log('detected');
       try {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         });
-        setUaccounts(accounts[0]);
-        console.log('Use this man:', uaccounts);
+        setUaccounts(accounts[0]);    ///store wallet account address
       } catch (error) {
         console.log('Error connecting...');
       }
@@ -90,10 +116,17 @@ const SmartContractData = () => {
 
 
   return (
+    <>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={6}>
+          <Button startIcon={<Iconify icon="logos:metamask-icon"  />}>DISCONNECTE WALLET</Button>
+          <Typography sx={{ border: '2px solid', borderRadius: '26px', p:1,borderColor: '#cd6116'  }}>{uaccounts}</Typography>
+        </Stack>
     <Grid container spacing={3}>
       <Grid>
+        
         <Box sx={{ '& button': { m: 4 }, ml: 5 }}>
           <div>
+            {console.log("bala", balance)}
             <Typography variant="h7">Ether Smart Contract Balance : {balance}</Typography>
          
           </div>
@@ -102,12 +135,13 @@ const SmartContractData = () => {
             <Typography variant="h7">You can Withdraw this Balance :{withdrawetherbal}</Typography>
           </div>
           <div>
-            <Button variant="contained" >Withdraw</Button>
+            <Button variant="contained" onClick={WithdrewBlanceether} >Withdraw</Button>
           </div>
         </Box>
       </Grid>
       <Box sx={{ '& button': { m: 4 }, ml: 5 }}>
         <div>
+        {console.log("balamatic", balancematic)}
           <Typography variant="h7">Matic Smart Contract Balance : {balancematic}</Typography>
         </div>
         <div>
@@ -118,6 +152,8 @@ const SmartContractData = () => {
         </div>
       </Box>
     </Grid>
+    </>
+    
   );
 };
 
