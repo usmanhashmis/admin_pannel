@@ -13,7 +13,7 @@ import Addproduct from './pages/Addproduct';
 import Productorders from './pages/Productorders';
 import Contractamount from './pages/Contractamount';
 import Discount from './pages/Discountoffer';
-
+import Addstock from './pages/Addnewstock';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -31,6 +31,7 @@ export default function Router() {
         { path: 'productorders', element: <Productorders/> },
         { path: 'contractamount', element: <Contractamount/> },
         { path: 'discount', element: <Discount/> },
+        { path: 'addstock', element: <Addstock/> },
 
       ],
     },

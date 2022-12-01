@@ -42,10 +42,18 @@ const navConfig = [
     
   },
   {
+    title: 'Profit Calculation ',
+    path: '/dashboard/addstock',
+    icon: getIcon('clarity:contract-solid'),
+    
+  },
+  {
     title: 'logout',
     path: '/login',
+    removeToken : () => { localStorage.removeItem("token") },
     icon: getIcon('eva:lock-fill'),
-    fun:myfun()
+
+  
   },
 
 ];

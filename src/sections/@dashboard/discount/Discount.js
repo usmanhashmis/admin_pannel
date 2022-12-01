@@ -1,27 +1,45 @@
 /* eslint-disable */
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate} from "react-router";
-import { TextField, Button, Box } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router';
+import { TextField, Button, Box, Select, MenuItem, InputLabel,FormControl } from '@mui/material';
 
 function Discount() {
-    const navigate = useNavigate();
-    const [offers, setOffers] = useState({
-        coin: "",
-        amount:"",
-        promocode:"",
-        
-      });
-      
-    const { coin, amount,promocode} = offers;
-const discounted =()=>{
-    axios.post("/giftoff/discount", offers).then((res) => {
+  const navigate = useNavigate();
+
+  const [offers, setOffers] = useState({
+    coin: '',
+    amount: '',
+    promocode: '',
+  });
+
+  const [coinname, setCoinname] = useState();
+  const { coin, amount, promocode } = offers;
+
+  
+  useEffect(()=>{
+    axios
+    .get("/prices/getprices")
+    .then((res) => {
+      setCoinname(res.data);
+ 
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  },[])
+
+  const discounted = () => {
+    axios
+      .post('/giftoff/discount', offers)
+      .then((res) => {
         console.log(res.data);
-        navigate("/dashboard/products");
-      }).catch((err)=>{
+        navigate('/dashboard/products');
+      })
+      .catch((err) => {
         alert(err);
       });
-}
+  };
 
   return (
     <div>
@@ -33,17 +51,26 @@ const discounted =()=>{
         noValidate
         autoComplete="off"
       >
-        <TextField
-          id="outlined-basic"
-          label="Coin Name"
-          variant="outlined"
+        
+        <FormControl fullWidth >
+        <InputLabel id="demo-simple-select-label">Coin</InputLabel>
+        <Select
+           
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
           value={coin ? coin : ''}
-          row={8}
+          label="Coin Name"
           onChange={(e) => {
             setOffers({ ...offers, coin: e.target.value });
           }}
-          placeholder="Coin Name"
-        />
+        >
+          {coinname?.map((index,key)=>(
+          <MenuItem key={key} value={coin ? coin : ''}>{index.coin_name}</MenuItem>
+         
+          ))} 
+        </Select>
+      </FormControl>
+     
         <TextField
           id="outlined-basic"
           label="Amount in coin"
@@ -55,7 +82,7 @@ const discounted =()=>{
           }}
           placeholder="Enter Dicount"
         />
-         <TextField
+        <TextField
           id="outlined-basic"
           label="Promo Code"
           variant="outlined"
@@ -66,9 +93,9 @@ const discounted =()=>{
           }}
           placeholder="Enter PromoCode"
         />
-          <Button variant="contained" component="span" onClick={discounted}>
-            Submit 
-          </Button>
+        <Button variant="contained" component="span" onClick={discounted}>
+          Submit
+        </Button>
       </Box>
     </div>
   );

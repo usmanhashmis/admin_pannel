@@ -30,24 +30,24 @@ export default function DashboardApp() {
     <Page title="Dashboard">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome
+          Hi, Welcome Admin
         </Typography>
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={71} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="Weekly Sales" total={71} icon={'flat-color-icons:sales-performance'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={135} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="New Users" total={135} color="info" icon={'gridicons:multiple-users'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={193} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary title="Item Orders" total={193} color="warning" icon={'icon-park:health-products'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Runing Coin In App" total={10} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary title="Runing Coin In App" total={2} color="error" icon={'pixelarticons:coin'} />
           </Grid>
 
   
@@ -70,9 +70,9 @@ export default function DashboardApp() {
                
             </Grid>
             ))} 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppTasks title="Tasks" list={[{ id: '1', label: 'Create FireStone Logo' }]} />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Page>

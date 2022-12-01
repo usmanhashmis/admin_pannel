@@ -101,7 +101,7 @@ export default function Selectcoin() {
             Coins List
           </Typography>
           <Button variant="contained" onClick={onsubmit} startIcon={<Iconify icon="eva:plus-fill"  />}>
-            Add Coins
+            Select Coins
           </Button>
         </Stack>
 
@@ -131,7 +131,7 @@ export default function Selectcoin() {
                            </Typography>
                          </Stack>
                        </TableCell>
-                       <TableCell align="left">{item.rate.toFixed(2)}</TableCell>
+                       <TableCell align="left">{item.rate.toFixed(4)}</TableCell>
                        <TableCell align="left">{item.symbol}</TableCell>
                        <TableCell align="left">{item.rank}</TableCell>
              

@@ -66,14 +66,13 @@ const ShopProductCard=()=> {
                 <Typography variant="subtitle2" noWrap>
                   {index.product_name}
                 </Typography>
+                <Typography>Available Stock:{index.product_stock}</Typography>
               </Link>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography variant="subtitle1">
                   &nbsp;
                   {fCurrency(index.price)}
-              
                 </Typography>
-                
                 
                 <Link  color="inherit" underline="hover" component={RouterLink} to={"/dashboard/addproduct/edit/" + index._id}>Edit</Link>
                 <Button  onClick={()=>{deleteproduct(index._id)}}>Delete</Button>

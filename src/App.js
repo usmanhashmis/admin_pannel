@@ -28,7 +28,7 @@ const App=()=> {
      
       <ThemeProvider>
       <ScrollToTop />
-      <Router />
+       <Router />
     </ThemeProvider>  
     </>
    

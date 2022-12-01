@@ -79,7 +79,8 @@ function NavItem({ item, active }) {
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {children.map((item) => {
-              const { title, path } = item;
+              const { title, path, removeToken } = item;
+              if(title === 'logout') removeToken()
               const isActiveSub = active(path);
 
               return (

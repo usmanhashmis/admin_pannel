@@ -21,10 +21,12 @@ const Adddata = (props) => {
     description: "",
     price:"",
     product_img:"",
+    availablestock:"",
+    purchase_price:"",
     
   });
   
-  const { product_name,product_id, description,price,product_img} = category;
+  const { product_name,product_id, description,price,product_img,availablestock , purchase_price} = category;
 
   const onupload =async e=>{
   const files = e.target.files
@@ -43,6 +45,7 @@ const Adddata = (props) => {
       console.log(responseData);
       setCategory({ ...category, product_img: responseData.secure_url });
       console.log(product_img);
+      alert("Product Img Uploaded")
     })
   } 
 
@@ -114,6 +117,24 @@ const Adddata = (props) => {
             }}
             placeholder="Price in USDT"
           />
+             <TextField
+            id="outlined-basic"
+            label="Available Stock"
+            value={availablestock ? availablestock: ""}
+            onChange={(e) => {
+              setCategory({ ...category, availablestock: e.target.value });
+            }}
+            placeholder="Available Stock"
+          />
+               <TextField
+            id="outlined-basic"
+            label="Purchasing Price"
+            value={purchase_price ? purchase_price: ""}
+            onChange={(e) => {
+              setCategory({ ...category, purchase_price: e.target.value });
+            }}
+            placeholder="Purchase Price in USDT"
+          />
             <label htmlFor="contained-button-file">
             <Input
               
@@ -127,9 +148,7 @@ const Adddata = (props) => {
               Upload
             </Button>
           </label>
-
-        </Box>
-        <Button
+          <Button
           variant="contained"
           onClick={() => {
             if (!edit) {
@@ -155,6 +174,8 @@ const Adddata = (props) => {
         >
           {edit ? "Edit" : "Submit Data"}
         </Button>
+        </Box>
+        
       </div>
     </div>
   );
