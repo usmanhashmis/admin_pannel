@@ -37,38 +37,28 @@ const TABLE_HEAD = [
 
 
 function ProfitCalculations() {
-    const [products,setProducts] = useState([]);
-    const [orders,setOrders] = useState([]);
+   const [products,setProducts] = useState([]);
+
     const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     getproducts();
-    orderdetail();
+
  },[]);
 
  const getproducts =()=>{
    axios
-   .get("http://localhost:420/categories/getproduct")
+   .get("/categories/getproduct")
    .then((res) => {
-     setProducts(res.data);
+    setProducts(res.data);
      setLoading(false);
-   })
+   }) 
    .catch((err) => {
      console.log(err);
    });
  }
 
- const orderdetail =()=>{
-    axios
-    .get("http://localhost:420/orderr/getorderdetail")
-    .then((res) => {
-      setOrders(res.data);
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
+
 
 
 
@@ -86,13 +76,12 @@ function ProfitCalculations() {
                 headLabel={TABLE_HEAD}
               />             
                    <TableBody>
-            {products?.map((itemproduct,key)=>(
+            {data?.map((itemproduct,key)=>(
                    <TableRow
                      hover
                      key={key}
-                   >             
-                     { orders?.map((itemorder,i)=> (
-                      <div  key={i}>
+                   >                 
+                      <div>
                       <TableCell align="left">{itemproduct.product_name}</TableCell>
                       <TableCell align="left">{itemproduct.purchase_price}</TableCell>    
                      <TableCell align="left" >dummy</TableCell>
@@ -101,7 +90,7 @@ function ProfitCalculations() {
                  
                  
                      </div>
-                     ))} 
+              
                    </TableRow>
                    ))}
              </TableBody>

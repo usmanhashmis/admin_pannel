@@ -20,7 +20,9 @@ import axios from "axios";
 
 
 ////base URL
-axios.defaults.baseURL = 'https://drab-cyan-fossa-kilt.cyclic.app';
+//axios.defaults.baseURL = 'https://drab-cyan-fossa-kilt.cyclic.app';
+axios.defaults.baseURL = 'http://localhost:420';
+
 // ----------------------------------------------------------------------
 const store  = configureStore();
 const root = ReactDOM.createRoot(document.getElementById('root'));

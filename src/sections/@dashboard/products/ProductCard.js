@@ -32,7 +32,7 @@ const ShopProductCard=()=> {
   const [loading, setLoading] = useState(true); /////API loading data
 
   useEffect(() => {
-    axios.get('categories/getproduct').then((res) => {
+    axios.get('/categories/getproduct').then((res) => {
       setLoading(false);
       setProducts(res.data);
     });

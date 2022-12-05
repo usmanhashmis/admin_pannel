@@ -13,7 +13,7 @@ function Discount() {
     promocode: '',
   });
 
-  const [coinname, setCoinname] = useState();
+  const [coinname, setCoinname] = useState([]);
   const { coin, amount, promocode } = offers;
 
   
@@ -21,8 +21,8 @@ function Discount() {
     axios
     .get("/prices/getprices")
     .then((res) => {
-      setCoinname(res.data);
- 
+      setCoinname(res.data[0].coin_name);
+      console.log(coinname[0].coin_name);
     })
     .catch((err) => {
       console.log(err);
@@ -58,14 +58,14 @@ function Discount() {
            
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={coin ? coin : ''}
+          value={coin}
           label="Coin Name"
           onChange={(e) => {
             setOffers({ ...offers, coin: e.target.value });
           }}
         >
           {coinname?.map((index,key)=>(
-          <MenuItem key={key} value={coin ? coin : ''}>{index.coin_name}</MenuItem>
+          <MenuItem key={key} value={index}>{index}</MenuItem>
          
           ))} 
         </Select>
@@ -96,6 +96,7 @@ function Discount() {
         <Button variant="contained" component="span" onClick={discounted}>
           Submit
         </Button>
+        
       </Box>
     </div>
   );

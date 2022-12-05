@@ -21,12 +21,12 @@ const Adddata = (props) => {
     description: "",
     price:"",
     product_img:"",
-    availablestock:"",
+    product_stock:"",
     purchase_price:"",
     
   });
   
-  const { product_name,product_id, description,price,product_img,availablestock , purchase_price} = category;
+  const { product_name,product_id, description,price,product_img,product_stock , purchase_price} = category;
 
   const onupload =async e=>{
   const files = e.target.files
@@ -120,9 +120,9 @@ const Adddata = (props) => {
              <TextField
             id="outlined-basic"
             label="Available Stock"
-            value={availablestock ? availablestock: ""}
+            value={product_stock ? product_stock: ""}
             onChange={(e) => {
-              setCategory({ ...category, availablestock: e.target.value });
+              setCategory({ ...category, product_stock: e.target.value });
             }}
             placeholder="Available Stock"
           />
