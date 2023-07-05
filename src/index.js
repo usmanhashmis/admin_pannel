@@ -13,6 +13,8 @@ import { Provider } from 'react-redux';
 import { configureStore } from './_mock/configureStore';
 
 //
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
@@ -20,8 +22,8 @@ import axios from "axios";
 
 
 ////base URL
-//axios.defaults.baseURL = 'https://drab-cyan-fossa-kilt.cyclic.app';
-axios.defaults.baseURL = 'http://localhost:420';
+axios.defaults.baseURL = 'https://electric-blue-rabbit-coat.cyclic.app/';
+// axios.defaults.baseURL = 'http://localhost:420';
 
 // ----------------------------------------------------------------------
 const store  = configureStore();
@@ -31,6 +33,7 @@ root.render(
   <Provider store={store}>
      <HelmetProvider>
     <BrowserRouter>
+    <ToastContainer />
       <App />
     </BrowserRouter>
   </HelmetProvider>

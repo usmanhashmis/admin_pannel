@@ -17,26 +17,28 @@ import {
   Container,
   Typography,
   TableContainer,
-  Alert
+  Alert,
+  DialogContentText,DialogContent, DialogActions,DialogTitle,Dialog
 } from '@mui/material';
+import { Icon } from '@iconify/react';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import { UserListHead } from '../sections/@dashboard/user';
 // mock
-//import USERLIST from '../_mock/user';
+
 import { useSelector, useDispatch } from "react-redux";
 import {GetPrices} from '../_mock/actions/actionCryptocoin';
 // ----------------------------------------------------------------------
 
 
 const TABLE_HEAD = [
+  { id: 'check', label: 'Select ', alignRight: false },
   { id: 'name', label: 'Coin Name', alignRight: false },
   { id: 'rate', label: 'Current Price', alignRight: false },
   { id: 'symbol', label: 'Symbol', alignRight: false },
   { id: 'suspended', label: 'Transection Satuts', alignRight: false },
-  { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -48,6 +50,7 @@ export default function Selectcoin() {
   const [allprices, setAllprices] = useState();
   const [checkedcoin,setCheckedcoin] = useState([]);
   const [select,setSelect] = useState();
+  const [opendia, setOpendia] = useState(false);
   
   const sendparameters = 
   useEffect(() => {
@@ -83,8 +86,7 @@ export default function Selectcoin() {
     axios
     .post("/prices/add",{coin_name:checkedcoin})
     .then((res) => { 
-      console.log("request done"); 
-      alert("ok");
+      setOpendia(true);
       console.log(res.data);
       
     })
@@ -104,6 +106,30 @@ export default function Selectcoin() {
             Select Coins
           </Button>
         </Stack>
+        {opendia && 
+           <Dialog
+           open={opendia}
+           onClose={opendia}
+           aria-labelledby="alert-dialog-title"
+           aria-describedby="alert-dialog-description"
+         >
+           <DialogTitle id="alert-dialog-title">
+             {"Coins"}
+           </DialogTitle>
+           <DialogContent>
+             <DialogContentText id="alert-dialog-description">
+              Coin Added Successfully
+             </DialogContentText>
+           </DialogContent>
+           <DialogActions>
+        
+        <Icon icon="twemoji:ok-button" width="35" height="35" onClick={()=>{
+             setOpendia(false)
+             navigate('/dashboard/products')}} />
+
+           </DialogActions>
+         </Dialog>
+          }
 
         <Card>
           <Scrollbar>

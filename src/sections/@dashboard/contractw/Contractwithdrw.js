@@ -13,6 +13,7 @@ import Web3 from 'https://cdn.skypack.dev/web3@1.8.0';
 import { ethers } from 'ethers';
 import { ContractAbi, ContractAbiMatic } from './abi';
 import { contractAddress, contractAddressMatic } from './contractAddress';
+import { toast } from 'react-toastify';
 // ----------------------------------------------------------------------
 const provider = new Web3.providers.HttpProvider('https://eth-goerli.g.alchemy.com/v2/YPhlCYJ_fLdms1LpSRNs1n6rfcIqGHT9');
 const etherweb3 = new Web3(provider);
@@ -25,11 +26,11 @@ const maticweb3 = new Web3(providermatic);
 
 const SmartContractData = () => {
   var navigate = useNavigate();
-  const [products, setProducts] = useState([]); ////////data receive
-  const [balance, setBalance] = useState(); /////check balance
-  const [balancematic, setBalancematic] = useState(); /////check balance matic
-  const [withdrawbal, setWithdrawbal] = useState(); ////matic balance check
-  const [withdrawetherbal, setWithdrawetherbal] = useState(); ////ether balance check
+  const [products, setProducts] = useState([]); //data receive
+  const [balance, setBalance] = useState(); //check balance
+  const [balancematic, setBalancematic] = useState(); //check balance matic
+  const [withdrawbal, setWithdrawbal] = useState(); //matic balance check
+  const [withdrawetherbal, setWithdrawetherbal] = useState(); //ether balance check
   const [uaccounts, setUaccounts] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -65,7 +66,7 @@ const SmartContractData = () => {
       .balance()
       .call()
       .then(function (bal) {
-        console.log('maticccc', bal);
+        // console.log('maticccc', bal);
         const convertedb = maticweb3.utils.fromWei(bal);
         setFun(convertedb);
       });
@@ -100,15 +101,39 @@ const SmartContractData = () => {
   
   };
 
-  const WithdrewBlance = async () => {
-    // console.log("done");
-    // const paramter = maticweb3.utils.toWei(withdrawbal, 'ether');
-    // const contract = new maticweb3.eth.Contract(ContractAbiMatic,contractAddressMatic);
-    // await contract.methods.withdraw(paramter).send({from: uaccounts}).then(function (bal) {
-    //     alert("withdrew done");
-    //     setBalancematic(0);
-    //   });
+  const withdrawBalance = async () => {
+    try {
+      const contract = new maticweb3.eth.Contract(ContractAbiMatic, contractAddressMatic);
+      const gas = await contract.methods.withdraw().estimateGas({ from: uaccounts });
+      const gasPrice = await maticweb3.eth.getGasPrice();
+      const data = contract.methods.withdraw().encodeABI();
+      const nonce = await maticweb3.eth.getTransactionCount(uaccounts);
+      const privatekey = "c10fa5e93ebb57e70d47e22ce20004e0179c581389ff5fc28018c7b7fe55552a"
+      const tx = {
+        from: uaccounts,
+        to: contractAddressMatic,
+        gas: gas,
+        gasPrice: gasPrice,
+        data: data,
+        nonce: nonce,
+      };
+  
+      const signedTx = await maticweb3.eth.accounts.signTransaction(tx, privatekey);
+      const receipt = await maticweb3.eth.sendSignedTransaction(signedTx.rawTransaction);
+  
+      if (receipt.status) {
+        setBalancematic(0);
+        alert("Withdrawal successful");
+        console.log("Transaction hash:", receipt.transactionHash);
+      } else {
+        console.error("Transaction failed:", receipt);
+      }
+    } catch (error) {
+      console.error("Transaction error:", error);
+    }
   };
+  
+  
 
   const checketherwithdrawbalacne = async (abi, address, setCheckbal) => {
     const contract = new etherweb3.eth.Contract(abi, address);
@@ -142,10 +167,14 @@ const SmartContractData = () => {
         });
         setUaccounts(accounts[0]); ///store wallet account address
       } catch (error) {
-        console.log('Error connecting...');
+        toast.error("Wallet Not Connected", {
+          position: toast.POSITION.TOP_RIGHT
+        });
       }
     } else {
-      alert('Meta Mask not detected');
+      toast.console.warn("Wallet Not Detected", {
+        position: toast.POSITION.TOP_RIGHT
+      });
     }
   };
 
@@ -184,7 +213,7 @@ const SmartContractData = () => {
             <Typography variant="h7">You can Withdraw this Balance :{withdrawbal}</Typography>
           </div>
           <div>
-            <Button variant="contained" onClick={WithdrewBlance}>
+            <Button variant="contained" onClick={withdrawBalance}>
               Withdraw
             </Button>
           </div>

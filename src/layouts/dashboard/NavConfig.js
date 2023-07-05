@@ -26,6 +26,11 @@ const navConfig = [
     icon: getIcon('eva:shopping-bag-fill'),
   },
   {
+    title: 'Customers List',
+    path: '/dashboard/customerlist',
+    icon: getIcon('bxs:purchase-tag'),
+  },
+  {
     title: 'product Orders',
     path: '/dashboard/productorders',
     icon: getIcon('bxs:purchase-tag'),
@@ -44,7 +49,7 @@ const navConfig = [
   {
     title: 'Profit Calculation ',
     path: '/dashboard/addstock',
-    icon: getIcon('clarity:contract-solid'),
+    icon: getIcon('game-icons:profit'),
     
   },
   {

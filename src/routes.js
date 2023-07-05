@@ -14,6 +14,7 @@ import Productorders from './pages/Productorders';
 import Contractamount from './pages/Contractamount';
 import Discount from './pages/Discountoffer';
 import Addnewstock from './pages/Addnewstock';
+import Customerlist from './pages/Customerslist';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -32,6 +33,7 @@ export default function Router() {
         { path: 'contractamount', element: <Contractamount/> },
         { path: 'discount', element: <Discount/> },
         { path: 'addstock', element: <Addnewstock/> },
+        { path: 'customerlist', element: <Customerlist/> },
 
       ],
     },

@@ -5,7 +5,7 @@ const datapara = {
   sort: 'rank',
   order: 'ascending',
   offset: 0,
-  limit: 30,
+  limit: 15,
   meta: true,
 };
 

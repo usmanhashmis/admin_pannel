@@ -33,36 +33,33 @@ import moment from 'moment';
 
 const TABLE_HEAD = [
 
-  { id: 'id', label: 'Product ID', alignRight: false },
-  { id: 'quantity', label: 'Quantity', alignRight: false },
-  { id: 'bill', label: 'Total Bill', alignRight: false },
-  { id: 'time', label: 'Time', alignRight: false },
-  { id: 'coin', label: 'Coin', alignRight: false },
-  { id: 'mail', label: 'UserName', alignRight: false },
-  { id: 'address', label: 'Address', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'time', label: 'Register Time', alignRight: false },
+  { id: 'username', label: 'Username', alignRight: false },
+  { id: 'email', label: 'Email', alignRight: false },
+
 ];
 // ----------------------------------------------------------------------
-export default function Productorder() {
+export default function Customerlist() {
   const [allprices, setAllprices] = useState();
   const [statuss, setStatuss] = useState(false);
-  // const [compl, setCompl] = useState();
   const [order, setOrder] = useState();
   const [loading, setLoading] = useState(true); /////API loading data
   const [s, setS] = useState('');
-  const [count,setCount]=useState(1);
+  const [count,setCount]=useState(0);
   const [p,setP]=useState(10);
 
+  
 
   useEffect(() => {
-    orderdetails();
+    customerdetails();
   }, [count]);
 
-  const orderdetails = () => {
+  const customerdetails = () => {
     axios
-      .get(`/orderr/getorderdetail/${count}`)
+      .get(`/users/getcustomerdetail/${count}`)
       .then((res) => {
         setOrder(res.data.records);
+        console.log("dcscsc",res.data.records);
         setP(res.data.num)
         setLoading(false);
       })
@@ -72,10 +69,11 @@ export default function Productorder() {
       });
   };
 
+
   const duration = (number) => {
      setS(number)
     axios
-      .post(`/orderr/getorderbydate`,{number})
+      .post(`/users/getcustomerbydate`,{number})
       .then((res) => {
         setOrder(res.data)
         //orderdetails();
@@ -86,11 +84,11 @@ export default function Productorder() {
   };
 
   return (
-    <Page title="Product Order">
+    <Page title="Customers">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Order List
+            Customer List
           </Typography>
         </Stack>
         {loading ? (
@@ -122,27 +120,12 @@ export default function Productorder() {
                     <TableBody>
                       {order?.map((item, key) => (
                         <TableRow hover key={key}>
-      
-
-                          <TableCell align="left">
-                            {item.productdetail?.map((items, i) => (
-                              <div>{items.productid}</div>
-                            ))}
-                          </TableCell>
-                          <TableCell align="left">
-                            {item.productdetail?.map((items, i) => (
-                              <div>{items.quantity}</div>
-                            ))}
-                          </TableCell>
-
-                          <TableCell align="left">{item.totalBill}</TableCell>
+                      
                           <TableCell align="left">
                             {moment(item.createdAt).format('dddd, MMMM Do YYYY, h:mm:ss a')}
                           </TableCell>
-                          <TableCell align="left">{item.coin}</TableCell>
+                          <TableCell align="left">{item.username}</TableCell>
                           <TableCell align="left">{item.email}</TableCell>
-                          <TableCell align="left">{item.address}</TableCell>
-                          <TableCell align="left">{item.status}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

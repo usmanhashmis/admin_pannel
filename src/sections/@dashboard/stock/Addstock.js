@@ -19,85 +19,156 @@ import {
   Typography,
   TableContainer,
   Alert,
-  CircularProgress,Box
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  CircularProgress,Box,
+  Pagination
 } from '@mui/material';
+
+import { useSelector, useDispatch } from "react-redux";
+import {GetPrices} from '../../../_mock/actions/actionCryptocoin';
 // components
 import Page from '../../../components/Page';
-import Scrollbar from '../../../components/Scrollbar';
 import { UserListHead } from '../user';
 
+
 const TABLE_HEAD = [
-    { id: 'Productname', label: 'Product Name', alignRight: false },
-    { id: 'purchaseprice', label: 'Purchasing Price', alignRight: false },
+    { id: 'Productid', label: 'Product ID', alignRight: false },
     { id: 'saleprice', label: 'Sale Price', alignRight: false },
+    { id: 'purchaseprice', label: 'Purchasing Price', alignRight: false }, 
     { id: 'coinname', label: 'Coin Name', alignRight: false },
+    { id: 'mail', label: 'Mail', alignRight: false },
+
     { id: 'profit', label : 'Profit', alignRight: false },
    
   ];
 
-
 function ProfitCalculations() {
-   const [products,setProducts] = useState([]);
-
-    const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const {error, data} = useSelector((state) => state.coin);
+  const [products,setProducts] = useState([]);
+  const [allprices, setAllprices] = useState();
+  const [loading, setLoading] = useState(true);
+  const [calculate , setCalculate] = useState(0);
+  const [p,setP]=useState(10);
+  const [count,setCount]=useState(1);
+  const [s, setS] = useState('');
   const navigate = useNavigate();
   useEffect(() => {
-    getproducts();
+    
+    const timer_id= setInterval(()=>{
+       dispatch(GetPrices());
+       if(data)
+       {
+         
+          var newData=data.filter((item)=>item.name=="Ethereum" || item.name=="Polygon");
+          setAllprices(newData);
+       // var newData=allprices.filter((item)=>item.name==coinnames);
+         console.log("coinsss",newData)
+       }
+       
+     },30000)
+    
+     return () => { 
+       clearInterval(timer_id)
+     }
+ 
+   },[data]);
 
- },[]);
+   useEffect(()=>{
+    getproducts();
+   },[count])
 
  const getproducts =()=>{
    axios
-   .get("/categories/getproduct")
+   .get(`/orderr/getorderdetail/${count}`)
    .then((res) => {
-    setProducts(res.data);
+    setProducts(res.data.records);
+    setP(res.data.num)
      setLoading(false);
+     console.log("dddd",products);
    }) 
    .catch((err) => {
      console.log(err);
    });
  }
 
-
-
-
-
+ const duration = (number) => {
+  setS(number)
+ axios
+   .post(`/orderr/getorderbydate`,{number})
+   .then((res) => {
+     setProducts(res.data)
+     //orderdetails();
+   })
+   .catch((err) => {
+     console.log(err);
+   });
+};
 
 
   return (
     <Page title="Profit Calculation">
     <Container>
       {loading ? <Box sx={{ display: 'flex' }}><CircularProgress /> </Box> :
+      (<>
+        <FormControl  variant="standard" sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="demo-simple-select-label">Duration</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={s}
+                label="Age"
+                onChange={(e)=>duration(e.target.value)}
+              >
+                <MenuItem value={1} name="One Day">One Day</MenuItem>
+                <MenuItem value={7} name="Seven Day">Seven Day</MenuItem>
+                <MenuItem value={30} name="One Month">One Month</MenuItem>
+              </Select>
+            </FormControl>
       <Card>
-        <Scrollbar>
+        
           <TableContainer sx={{ minWidth: 800 }}>
             <Table>
+          
               <UserListHead
                 headLabel={TABLE_HEAD}
               />             
                    <TableBody>
-            {data?.map((itemproduct,key)=>(
-                   <TableRow
-                     hover
-                     key={key}
-                   >                 
-                      <div>
-                      <TableCell align="left">{itemproduct.product_name}</TableCell>
-                      <TableCell align="left">{itemproduct.purchase_price}</TableCell>    
-                     <TableCell align="left" >dummy</TableCell>
-                     <TableCell align="left" >fvdfvdf</TableCell>
-                     <TableCell align="left" >dfvdfv</TableCell>
-                 
-                 
-                     </div>
-              
-                   </TableRow>
-                   ))}
+                   {products?.map((item,key)=>(
+                     <TableRow
+                       hover
+                       key={key}
+                     >               
+                        <TableCell align="left">{item.productdetail?.map((item,i)=>(<div>{item.productid}</div>) )}</TableCell>
+                        <TableCell align="left">{item.productdetail?.map((item,i)=>(<div>{item.price}</div>) )}</TableCell>
+                        <TableCell align="left">{item.productdetail?.map((item,i)=>(<div>{item.purchase_price}$</div>) )}</TableCell>
+                         
+                       <TableCell align="left" >{item.coin}</TableCell>
+                       <TableCell align="left" >{item.email}</TableCell>
+                        
+
+                        {allprices?.map((coinname,e)=>(
+                        <>
+                           {(coinname.name==item.coin)&& ( <TableCell align="left">{item.productdetail?.map((item,i)=>(<div>{((item.price*coinname.rate)-item.purchase_price).toFixed(4)}$</div>) )}
+                      </TableCell>)}         
+                        </>
+                        ))} 
+                     </TableRow>
+                     ))}
+          
              </TableBody>
+             <div style={{"marginLeft":"15px"}}>Total: </div>
             </Table>
+            
           </TableContainer>
-        </Scrollbar>
+          <Stack spacing={2}>
+              <Pagination count={p}  color="primary" onChange={(e,page)=>setCount(page)} />
+              </Stack>   
       </Card>
+      </>)
 }
     </Container>
   </Page>
